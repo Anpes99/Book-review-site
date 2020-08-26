@@ -19,6 +19,8 @@ Session(app)
 # Set up database
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
+
+# Reads book info from books.csv and inserts it to database
 def main():
 	with open('books.csv') as file:
 		data = csv.reader(file, delimiter=',')
