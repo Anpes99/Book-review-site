@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+
+
+{% block heading %}
+
+<h4>Search for a book</h4>
+{% endblock %}
+logged in as {{username}}
+
+{% block body %}
+<div style="padding: 20px">
+<h3>{{bookinfo[1]}},{{bookinfo[3]}}</h3>
+<h5>{{bookinfo[2]}}</h5>
+<small>isbn: {{bookinfo[0]}}</small>
+</div>
+
+
+  {% for review in reviews%}
+  <div>
+  <ul>
+    <li>{{review[1]}}</li>
+    <li>{{review[2]}}</li>
+    <li>{{review[3]}}/5</li>
+  </ul>
+</div>
+  {% endfor %}
+
+
+
+
+
+
+<div>
+  
+
+  <form action="{{url_for('bookpage',isbn=bookinfo[0])}}" method="post">
+<div class="form-group">
+  <input class="form-control" type="text" name="review">
+  
+</div>
+
+<label for="rating">Choose a rating:</label>
+<select name="rating" id="rating">
+    <option value="5">5</option>
+    <option value="4">4</option>
+    <option value="3">3</option>
+    <option value="2">2</option>
+    <option value="1">1</option>
+      </select>
+  /5
+  <button type="submit" class="btn btn-primary" style="width: 80px">Submit review</button>
+</form>
+</div>
+
+<h4 style="color:red; ">{{reviewerror}}</h4>
+{% endblock %}
+
+

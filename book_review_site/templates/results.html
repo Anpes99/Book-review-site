@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+
+
+
+{% block heading %}
+logged in as {{username}}
+<h4>Search for a book</h4>
+{% endblock %}
+
+
+{% block body %}
+<tr>
+    <th>ISBN</th>
+    <th>title</th>
+    <th>author</th>
+    <th>year</th>
+  </tr>
+  <div>{{message}}</div>
+{% for result in results %}
+<div>
+<tr>
+    <td><a href="{{ url_for('bookpage', isbn=result.isbn) }}">{{result.isbn}}</a></td>
+    <td>s{{result.title}}</td>
+    <td>>d{{result.author}}</td>
+    <td>f{{result.year}}</td>
+  </tr>
+</div>
+{% endfor %}
+
+{% endblock %}
+
+
