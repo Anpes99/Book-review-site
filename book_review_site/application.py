@@ -21,6 +21,7 @@ engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 @app.route("/", methods=["POST","GET"])
 def index():
+	print("index() running...................................")
 	if request.method == "POST":
 		username1 = request.form.get("username")
 		password = request.form.get("password")
@@ -36,7 +37,7 @@ def index():
 
 @app.route("/login", methods=["POST","GET"])
 def login():
-
+	print("login() running...................................")
 	if request.method == "POST":
 		username1 = request.form.get("username")
 		password = request.form.get("password")
@@ -52,21 +53,19 @@ def login():
 
 @app.route("/registration")
 def registration():
+	print("registration() running...................................")
 	return render_template("registration.html")
 
 @app.route("/search", methods=["POST","GET"])
 def search():
+	print("search() running...................................")
 	searchword = request.form.get("searchword")
-	print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 	print(searchword)
 	searchworda = "%"
 	searchworda +=str(searchword)
 	searchworda += "%"
-	print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 	searchworda=str(searchworda)
 	print(searchworda)
-	#resultsa = db.execute("SELECT * FROM books WHERE isbn LIKE :searchword ", {"searchword":searchworda}).fetchall()
-	#print(resultsa)
 	results1 = db.execute("SELECT * FROM books WHERE isbn LIKE :searchword OR title LIKE :searchword1 OR author LIKE :searchword2 OR year LIKE :searchword3 ", {"searchword":searchworda,"searchword1":searchworda,"searchword2":searchworda,"searchword3":searchworda}).fetchall()
 	message=""
 	if not results1:
@@ -75,6 +74,7 @@ def search():
 
 @app.route("/book/<string:isbn>", methods=["GET","POST"])
 def bookpage(isbn):
+	print("bookpage(isbn) running...................................")
 	reviewerror=""
 	if request.method == "POST":
 		review =request.form.get("review")
@@ -92,9 +92,9 @@ def bookpage(isbn):
 
 @app.route("/api/<isbn>")
 def book_api(isbn):
+	print("book_api(isbn) running...................................")
 	bookinfo= db.execute("SELECT * FROM books WHERE isbn =:isbn", {"isbn":isbn}).first()
 	reviewcount = db.execute("SELECT COUNT(review) FROM  reviews WHERE isbn =:isbn", {"isbn":isbn}).first()
-	print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
 	print(reviewcount[0])
 	ratingavg = db.execute("SELECT AVG(rating) FROM reviews WHERE isbn =:isbn", {"isbn":isbn}).first()
 	if bookinfo == None:
